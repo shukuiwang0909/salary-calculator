@@ -1,11 +1,14 @@
-export function formatCurrency(n: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(n);
+export function formatCurrency(
+  value: number,
+  symbol = "$",
+  decimals = 0
+): string {
+  return `${symbol}${value.toLocaleString("en-US", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  })}`;
 }
 
-export function formatNumber(n: number, digits = 2): string {
-  return n.toFixed(digits);
+export function formatHourly(value: number, symbol = "$"): string {
+  return `${symbol}${value.toFixed(2)}/hr`;
 }

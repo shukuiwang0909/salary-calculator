@@ -17,3 +17,11 @@ body {
 .dark body {
   background-color: #030712;
 }
+
+/* Ensure native select arrows are hidden across all browsers */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}

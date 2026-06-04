@@ -1,40 +1,61 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { CountryConfig } from "@/types";
+import { DollarSign } from "lucide-react";
 
 interface Props {
   value: number;
-  onChange: (v: number) => void;
+  onChange: (value: number) => void;
+  country: CountryConfig;
 }
 
-export default function SalaryInput({ value, onChange }: Props) {
-  const [raw, setRaw] = useState(value ? value.toLocaleString("en-US") : "");
+const MIN_SALARY = 0;
+const MAX_SALARY = 999_999_999;
 
-  useEffect(() => {
-    setRaw(value ? value.toLocaleString("en-US") : "");
-  }, [value]);
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const digits = e.target.value.replace(/\D/g, "");
-    const num = digits ? parseInt(digits, 10) : 0;
-    setRaw(num ? num.toLocaleString("en-US") : "");
+export default function SalaryInput({ value, onChange, country }: Props) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    if (raw === "") {
+      onChange(0);
+      return;
+    }
+    const num = Number(raw);
+    if (Number.isNaN(num)) return;
+    if (num < MIN_SALARY) {
+      onChange(MIN_SALARY);
+      return;
+    }
+    if (num > MAX_SALARY) {
+      onChange(MAX_SALARY);
+      return;
+    }
     onChange(num);
-  }
+  };
+
+  const isDollar = country.currencySymbol === "$";
 
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-        Annual Salary
+        Annual Salary ({country.currency})
       </label>
       <div className="relative">
-        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 font-medium">$</span>
+        {isDollar ? (
+          <DollarSign className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
+        ) : (
+          <span className="absolute top-1/2 left-3 -translate-y-1/2 text-sm font-semibold text-gray-400">
+            {country.currencySymbol}
+          </span>
+        )}
         <input
-          type="text"
-          inputMode="numeric"
-          value={raw}
+          type="number"
+          min={MIN_SALARY}
+          max={MAX_SALARY}
+          step={1000}
+          value={value}
           onChange={handleChange}
-          placeholder="e.g. 75,000"
-          className="w-full pl-8 pr-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pr-4 pl-9 text-gray-900 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+          placeholder="75000"
         />
       </div>
     </div>

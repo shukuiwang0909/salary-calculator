@@ -5,20 +5,17 @@ import { CalculationResult } from "@/types";
 
 export function useHourlyRate(
   annualSalary: number,
-  stateCode: string,
-  isFreelance: boolean,
-  annualHours = 2080
+  annualHours: number
 ): CalculationResult {
   return useMemo(() => {
     const hourly = annualSalary / annualHours;
-    const freelanceRate = hourly * 1.75;
     return {
       hourlyRate: hourly,
       annualHours,
       monthlyRate: annualSalary / 12,
       weeklyRate: annualSalary / 52,
       dailyRate: annualSalary / 260,
-      freelanceRate: isFreelance ? freelanceRate : hourly,
+      freelanceRate: hourly * 1.75,
     };
-  }, [annualSalary, stateCode, isFreelance, annualHours]);
+  }, [annualSalary, annualHours]);
 }
