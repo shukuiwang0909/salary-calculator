@@ -14,65 +14,65 @@ import CountrySelector from "./CountrySelector";
 import { useHourlyRate } from "@/hooks/useHourlyRate";
 import { trackEvent, ANALYTICS_EVENTS } from "./Analytics";
 
-function getCountryFromId(id: string | null): CountryConfig {
+interface InitialState {
+  country?: string;
+  salary?: number;
+  region?: string;
+  freelance?: boolean;
+}
+
+function getCountryFromId(id: string | null | undefined): CountryConfig {
   if (!id) return getDefaultCountry();
   return COUNTRIES.find((c) => c.id === id) || getDefaultCountry();
 }
 
-interface UrlState {
-  country: CountryConfig;
-  salary: number;
-  region: string;
-  freelance: boolean;
+interface Props {
+  /**
+   * Initial state parsed server-side from the URL so the first paint
+   * already shows the right country/salary/region. Without this the
+   * client would render the default and then update on mount, causing
+   * a visible flash on shared URLs.
+   */
+  initial?: InitialState;
 }
 
-function readUrlState(): UrlState {
-  const params = new URLSearchParams(window.location.search);
-  const country = getCountryFromId(params.get("country"));
-  const rawSalary = params.get("salary");
-  const parsedSalary = rawSalary ? Number(rawSalary) : 75000;
-  const salary = Number.isNaN(parsedSalary)
-    ? 75000
-    : Math.max(0, Math.min(999_999_999, parsedSalary));
-  const regionParam = params.get("region");
-  const region =
-    country.regions.find((r) => r.code === regionParam)?.code ||
-    country.regions[0].code;
-  const freelance = params.get("freelance") === "1";
-  return { country, salary, region, freelance };
-}
+const DEFAULT_SALARY = 75000;
 
-export default function Calculator() {
-  const [isReady, setIsReady] = useState(false);
-  const [country, setCountry] = useState<CountryConfig>(getDefaultCountry());
-  const [salary, setSalary] = useState(75000);
-  const [region, setRegion] = useState(country.regions[0].code);
-  const [freelance, setFreelance] = useState(false);
+export default function Calculator({ initial }: Props) {
+  const initialCountry = getCountryFromId(initial?.country);
+  const initialSalary = Number.isFinite(initial?.salary)
+    ? Math.max(0, Math.min(999_999_999, initial!.salary as number))
+    : DEFAULT_SALARY;
+  const initialRegion =
+    initialCountry.regions.find((r) => r.code === initial?.region)?.code ||
+    initialCountry.regions[0].code;
 
-  // Hydrate from URL on mount
+  const [country, setCountry] = useState<CountryConfig>(initialCountry);
+  const [salary, setSalary] = useState(initialSalary);
+  const [region, setRegion] = useState(initialRegion);
+  const [freelance, setFreelance] = useState(Boolean(initial?.freelance));
+
+  // Sync <html lang> with the selected country so screen readers and
+  // browser translation tooling see the right language tag.
   useEffect(() => {
-    const initial = readUrlState();
-    setCountry(initial.country);
-    setSalary(initial.salary);
-    setRegion(initial.region);
-    setFreelance(initial.freelance);
-    setIsReady(true);
-  }, []);
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = country.lang;
+    }
+  }, [country.lang]);
 
   // Sync state changes back to URL (replaceState = no navigation)
   useEffect(() => {
-    if (!isReady) return;
     const params = new URLSearchParams();
     if (country.id !== getDefaultCountry().id)
       params.set("country", country.id);
-    if (salary !== 75000) params.set("salary", String(salary));
+    if (salary !== DEFAULT_SALARY) params.set("salary", String(salary));
     if (region !== country.regions[0].code) params.set("region", region);
     if (freelance) params.set("freelance", "1");
 
     const query = params.toString();
     const newUrl = query ? `?${query}` : window.location.pathname;
     window.history.replaceState(null, "", newUrl);
-  }, [country, salary, region, freelance, isReady]);
+  }, [country, salary, region, freelance]);
 
   const handleCountryChange = (newCountry: CountryConfig) => {
     trackEvent(ANALYTICS_EVENTS.COUNTRY_CHANGE, {
@@ -87,7 +87,7 @@ export default function Calculator() {
 
   const regionName = useMemo(
     () => country.regions.find((r) => r.code === region)?.name || region,
-    [country, region]
+    [country, region],
   );
 
   const shareData = {
@@ -97,9 +97,10 @@ export default function Calculator() {
     countryId: country.id,
     hourlyRate: result.hourlyRate,
     currencySymbol: country.currencySymbol,
+    locale: country.locale,
   };
 
-  const shareText = `My ${country.currencySymbol}${salary.toLocaleString()} salary in ${regionName} equals ${country.currencySymbol}${result.hourlyRate.toFixed(2)}/hr`;
+  const shareText = `My ${country.currencySymbol}${salary.toLocaleString(country.locale)} salary in ${regionName} equals ${country.currencySymbol}${result.hourlyRate.toFixed(2)}/hr`;
 
   return (
     <div className="mx-auto max-w-xl space-y-6 px-4 py-10">
@@ -156,7 +157,7 @@ export default function Calculator() {
       <ResultDisplay
         result={result}
         isFreelance={freelance}
-        currencySymbol={country.currencySymbol}
+        country={country}
       />
 
       {/* Context Card */}

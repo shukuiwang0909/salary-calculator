@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const jpConfig: CountryConfig = {
   id: "jp",
   name: "Japan",
+  lang: "ja",
+  locale: "ja-JP",
   flag: "🇯🇵",
-  currency: "JPY",
+  currencyCode: "JPY",
   currencySymbol: "¥",
   annualHours: 2080,
   weeklyHours: 40,

@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const seConfig: CountryConfig = {
   id: "se",
   name: "Sweden",
+  lang: "sv",
+  locale: "sv-SE",
   flag: "🇸🇪",
-  currency: "SEK",
+  currencyCode: "SEK",
   currencySymbol: "kr",
   annualHours: 1720,
   weeklyHours: 35,

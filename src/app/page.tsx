@@ -2,15 +2,35 @@ import Calculator from "@/components/Calculator";
 import HomeContent from "@/components/HomeContent";
 import Breadcrumb from "@/components/Breadcrumb";
 import JsonLd from "@/components/JsonLd";
+import { SITE_URL } from "@/lib/site";
 
-export default function Home() {
+interface PageProps {
+  searchParams: Promise<{
+    country?: string;
+    salary?: string;
+    region?: string;
+    freelance?: string;
+  }>;
+}
+
+export default async function Home({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const salaryNum = params.salary ? Number(params.salary) : undefined;
+
+  const initial = {
+    country: params.country,
+    salary: Number.isFinite(salaryNum) ? salaryNum : undefined,
+    region: params.region,
+    freelance: params.freelance === "1",
+  };
+
   const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "Salary to Hourly Calculator",
     description:
       "Free salary to hourly calculator for 18 countries. Convert annual salary to hourly rate with cost-of-living adjustments and freelance multipliers.",
-    url: "https://salarytohourly.com",
+    url: SITE_URL,
     mainEntity: {
       "@type": "FAQPage",
       mainEntity: [
@@ -54,7 +74,7 @@ export default function Home() {
     <>
       <JsonLd data={webPageSchema} />
       <Breadcrumb items={[{ label: "Home" }]} />
-      <Calculator />
+      <Calculator initial={initial} />
       <HomeContent />
     </>
   );

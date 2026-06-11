@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const caConfig: CountryConfig = {
   id: "ca",
   name: "Canada",
+  lang: "en-CA",
+  locale: "en-CA",
   flag: "🇨🇦",
-  currency: "CAD",
+  currencyCode: "CAD",
   currencySymbol: "C$",
   annualHours: 2080,
   weeklyHours: 40,

@@ -1,10 +1,12 @@
 import Breadcrumb from "@/components/Breadcrumb";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = pageMeta({
+  path: "/about",
   title: "About",
   description:
     "Learn about Salary to Hourly — a free calculator supporting 18 countries with cost-of-living adjustments and freelance rate estimates.",
-};
+});
 
 export default function AboutPage() {
   return (

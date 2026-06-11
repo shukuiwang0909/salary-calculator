@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SITE_URL } from "@/lib/site";
 
 export interface BreadcrumbItem {
   label: string;
@@ -19,7 +20,7 @@ export default function Breadcrumb({ items }: Props) {
       "@type": "ListItem",
       position: index + 1,
       name: item.label,
-      item: item.href ? `https://salarytohourly.com${item.href}` : undefined,
+      item: item.href ? `${SITE_URL}${item.href}` : undefined,
     })),
   };
 

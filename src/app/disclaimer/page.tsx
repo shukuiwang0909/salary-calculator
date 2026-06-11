@@ -1,10 +1,12 @@
 import Breadcrumb from "@/components/Breadcrumb";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = pageMeta({
+  path: "/disclaimer",
   title: "Disclaimer",
   description:
     "Disclaimer for Salary to Hourly. All calculations are estimates for informational purposes only.",
-};
+});
 
 export default function DisclaimerPage() {
   return (

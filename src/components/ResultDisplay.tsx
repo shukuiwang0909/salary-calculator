@@ -1,32 +1,34 @@
 "use client";
 
-import { CalculationResult } from "@/types";
+import { CalculationResult, CountryConfig } from "@/types";
 import { formatCurrency } from "@/lib/format";
 
 interface Props {
   result: CalculationResult;
   isFreelance: boolean;
-  currencySymbol: string;
+  country: CountryConfig;
 }
 
-export default function ResultDisplay({
-  result,
-  isFreelance,
-  currencySymbol,
-}: Props) {
+export default function ResultDisplay({ result, isFreelance, country }: Props) {
   const mainRate = isFreelance ? result.freelanceRate : result.hourlyRate;
 
   const items = [
     {
       label: "Monthly",
-      value: formatCurrency(result.monthlyRate, currencySymbol),
+      value: formatCurrency(result.monthlyRate, country),
     },
     {
       label: "Weekly",
-      value: formatCurrency(result.weeklyRate, currencySymbol),
+      value: formatCurrency(result.weeklyRate, country),
     },
-    { label: "Daily", value: formatCurrency(result.dailyRate, currencySymbol) },
-    { label: "Annual Hours", value: `${result.annualHours.toLocaleString()}` },
+    {
+      label: "Daily",
+      value: formatCurrency(result.dailyRate, country),
+    },
+    {
+      label: "Annual Hours",
+      value: result.annualHours.toLocaleString(country.locale),
+    },
   ];
 
   return (
@@ -41,7 +43,7 @@ export default function ResultDisplay({
             {isFreelance ? "Freelance Rate" : "Hourly Rate"}
           </div>
           <div className="text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-            {formatCurrency(mainRate, currencySymbol, 2)}
+            {formatCurrency(mainRate, country, 2)}
             <span className="ml-1 text-xl font-semibold text-gray-500 dark:text-gray-400">
               /hr
             </span>

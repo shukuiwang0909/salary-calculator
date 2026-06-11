@@ -37,7 +37,7 @@ export default function SalaryInput({ value, onChange, country }: Props) {
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-        Annual Salary ({country.currency})
+        Annual Salary ({country.currencyCode})
       </label>
       <div className="relative">
         {isDollar ? (

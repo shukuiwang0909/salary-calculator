@@ -1,18 +1,14 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site";
+import { listAllStaticSalaryParams } from "@/lib/salary-range";
 
 export const dynamic = "force-static";
 
-const baseUrl = "https://salarytohourly.com";
-
-const SALARY_MIN = 30000;
-const SALARY_MAX = 200000;
-const SALARY_STEP = 2000;
-
 function salaryUrls(): MetadataRoute.Sitemap {
   const urls: MetadataRoute.Sitemap = [];
-  for (let s = SALARY_MIN; s <= SALARY_MAX; s += SALARY_STEP) {
+  for (const { country, amount } of listAllStaticSalaryParams()) {
     urls.push({
-      url: `${baseUrl}/salary/${s}/hourly`,
+      url: `${SITE_URL}/${country}/salary/${amount}/hourly`,
       lastModified: new Date(),
       priority: 0.8,
     });
@@ -22,19 +18,23 @@ function salaryUrls(): MetadataRoute.Sitemap {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    { url: baseUrl, lastModified: new Date(), priority: 1.0 },
-    { url: `${baseUrl}/about`, lastModified: new Date(), priority: 0.6 },
-    { url: `${baseUrl}/privacy`, lastModified: new Date(), priority: 0.3 },
-    { url: `${baseUrl}/terms`, lastModified: new Date(), priority: 0.3 },
-    { url: `${baseUrl}/disclaimer`, lastModified: new Date(), priority: 0.3 },
-    { url: `${baseUrl}/cookie-policy`, lastModified: new Date(), priority: 0.3 },
+    { url: SITE_URL, lastModified: new Date(), priority: 1.0 },
+    { url: `${SITE_URL}/about`, lastModified: new Date(), priority: 0.6 },
+    { url: `${SITE_URL}/privacy`, lastModified: new Date(), priority: 0.3 },
+    { url: `${SITE_URL}/terms`, lastModified: new Date(), priority: 0.3 },
+    { url: `${SITE_URL}/disclaimer`, lastModified: new Date(), priority: 0.3 },
     {
-      url: `${baseUrl}/freelance-rate-guide`,
+      url: `${SITE_URL}/cookie-policy`,
+      lastModified: new Date(),
+      priority: 0.3,
+    },
+    {
+      url: `${SITE_URL}/freelance-rate-guide`,
       lastModified: new Date(),
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/hourly-to-salary`,
+      url: `${SITE_URL}/hourly-to-salary`,
       lastModified: new Date(),
       priority: 0.9,
     },

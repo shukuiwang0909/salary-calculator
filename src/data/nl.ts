@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const nlConfig: CountryConfig = {
   id: "nl",
   name: "Netherlands",
+  lang: "nl",
+  locale: "nl-NL",
   flag: "🇳🇱",
-  currency: "EUR",
+  currencyCode: "EUR",
   currencySymbol: "€",
   annualHours: 2080,
   weeklyHours: 40,

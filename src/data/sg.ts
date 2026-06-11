@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const sgConfig: CountryConfig = {
   id: "sg",
   name: "Singapore",
+  lang: "en-SG",
+  locale: "en-SG",
   flag: "🇸🇬",
-  currency: "SGD",
+  currencyCode: "SGD",
   currencySymbol: "S$",
   annualHours: 2080,
   weeklyHours: 40,

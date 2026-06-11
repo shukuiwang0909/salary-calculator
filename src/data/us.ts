@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const usConfig: CountryConfig = {
   id: "us",
   name: "United States",
+  lang: "en",
+  locale: "en-US",
   flag: "🇺🇸",
-  currency: "USD",
+  currencyCode: "USD",
   currencySymbol: "$",
   annualHours: 2080,
   weeklyHours: 40,

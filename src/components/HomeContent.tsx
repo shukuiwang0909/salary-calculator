@@ -9,7 +9,9 @@ import {
   TrendingUp,
   AlertCircle,
 } from "lucide-react";
-import { calculateBreakdown, salaryToK } from "@/lib/salary-range";
+import { calculateBreakdownForCountry } from "@/lib/salary-range";
+import { formatCurrency } from "@/lib/format";
+import { getCountryById } from "@/data";
 
 const steps = [
   {
@@ -74,17 +76,18 @@ const faqs = [
   },
 ];
 
-// Popular salary links for the homepage grid
+// Popular salary links for the homepage grid (US dollars, since we link
+// to the /us/salary/[amount]/hourly pages).
 const popularSalaries = [
   50000, 60000, 70000, 80000, 90000, 100000, 120000, 150000,
 ];
 
-function formatCurrency(n: number): string {
-  return n.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 2,
-  });
+const usCountry = getCountryById("us");
+
+function compactSalaryK(salary: number): string {
+  return `${(salary / 1000).toLocaleString(usCountry.locale, {
+    maximumFractionDigits: 0,
+  })}K`;
 }
 
 export default function HomeContent() {
@@ -183,18 +186,19 @@ export default function HomeContent() {
         </h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {popularSalaries.map((s) => {
-            const h = calculateBreakdown(s).hourly;
+            const h = calculateBreakdownForCountry(s, usCountry.annualHours)
+              .hourly;
             return (
               <Link
                 key={s}
-                href={`/salary/${s}/hourly`}
+                href={`/us/salary/${s}/hourly`}
                 className="rounded-xl border border-gray-200 bg-white p-3 text-center transition hover:border-blue-300 hover:shadow-sm dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-700"
               >
                 <div className="text-sm font-medium text-gray-900 dark:text-white">
-                  {salaryToK(s)} to hourly
+                  {compactSalaryK(s)} to hourly
                 </div>
                 <div className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-                  {formatCurrency(h)}/hr
+                  {formatCurrency(h, usCountry, 2)}/hour
                 </div>
               </Link>
             );

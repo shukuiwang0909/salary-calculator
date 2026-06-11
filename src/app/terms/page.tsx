@@ -1,10 +1,12 @@
 import Breadcrumb from "@/components/Breadcrumb";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = pageMeta({
+  path: "/terms",
   title: "Terms of Service",
   description:
     "Terms of Service for Salary to Hourly. Read about acceptable use, disclaimers, and limitations of liability.",
-};
+});
 
 export default function TermsPage() {
   return (

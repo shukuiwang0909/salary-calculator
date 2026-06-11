@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const hkConfig: CountryConfig = {
   id: "hk",
   name: "Hong Kong",
+  lang: "zh-HK",
+  locale: "zh-HK",
   flag: "🇭🇰",
-  currency: "HKD",
+  currencyCode: "HKD",
   currencySymbol: "HK$",
   annualHours: 2080,
   weeklyHours: 40,

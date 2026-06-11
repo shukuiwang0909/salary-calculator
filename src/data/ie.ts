@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const ieConfig: CountryConfig = {
   id: "ie",
   name: "Ireland",
+  lang: "en-IE",
+  locale: "en-IE",
   flag: "🇮🇪",
-  currency: "EUR",
+  currencyCode: "EUR",
   currencySymbol: "€",
   annualHours: 2080,
   weeklyHours: 40,

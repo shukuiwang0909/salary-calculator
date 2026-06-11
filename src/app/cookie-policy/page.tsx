@@ -1,10 +1,12 @@
 import Breadcrumb from "@/components/Breadcrumb";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = pageMeta({
+  path: "/cookie-policy",
   title: "Cookie Policy",
   description:
     "Cookie Policy for Salary to Hourly. Learn how we use cookies and tracking technologies.",
-};
+});
 
 export default function CookiePolicyPage() {
   return (

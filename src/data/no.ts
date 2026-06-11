@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const noConfig: CountryConfig = {
   id: "no",
   name: "Norway",
+  lang: "no",
+  locale: "nb-NO",
   flag: "🇳🇴",
-  currency: "NOK",
+  currencyCode: "NOK",
   currencySymbol: "kr",
   annualHours: 1820,
   weeklyHours: 35,

@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const fiConfig: CountryConfig = {
   id: "fi",
   name: "Finland",
+  lang: "fi",
+  locale: "fi-FI",
   flag: "🇫🇮",
-  currency: "EUR",
+  currencyCode: "EUR",
   currencySymbol: "€",
   annualHours: 1720,
   weeklyHours: 35,

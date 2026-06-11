@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const krConfig: CountryConfig = {
   id: "kr",
   name: "South Korea",
+  lang: "ko",
+  locale: "ko-KR",
   flag: "🇰🇷",
-  currency: "KRW",
+  currencyCode: "KRW",
   currencySymbol: "₩",
   annualHours: 2080,
   weeklyHours: 40,

@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const auConfig: CountryConfig = {
   id: "au",
   name: "Australia",
+  lang: "en-AU",
+  locale: "en-AU",
   flag: "🇦🇺",
-  currency: "AUD",
+  currencyCode: "AUD",
   currencySymbol: "A$",
   annualHours: 1976,
   weeklyHours: 38,

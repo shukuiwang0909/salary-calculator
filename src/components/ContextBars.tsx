@@ -58,7 +58,7 @@ export default function ContextBars({
           />
         </div>
         <div className="text-xs text-gray-500 dark:text-gray-400">
-          {formatCurrency(country.nationalMedianSalary, country.currencySymbol)}{" "}
+          {formatCurrency(country.nationalMedianSalary, country)}{" "}
           national median
         </div>
       </div>
@@ -80,7 +80,7 @@ export default function ContextBars({
           />
         </div>
         <div className="text-xs text-gray-500 dark:text-gray-400">
-          {formatCurrency(region.medianSalary, country.currencySymbol)}{" "}
+          {formatCurrency(region.medianSalary, country)}{" "}
           {country.id === "us" ? "state" : "province"} median
         </div>
       </div>

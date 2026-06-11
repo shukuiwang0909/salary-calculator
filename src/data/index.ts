@@ -17,6 +17,7 @@ import { noConfig } from "./no";
 import { dkConfig } from "./dk";
 import { fiConfig } from "./fi";
 import { cnConfig } from "./cn";
+import { validateAllCountries } from "./_validate";
 
 export const COUNTRIES: CountryConfig[] = [
   usConfig,
@@ -38,6 +39,18 @@ export const COUNTRIES: CountryConfig[] = [
   fiConfig,
   cnConfig,
 ];
+
+// Validate every config at module load. In production we only log warnings
+// (auto-corrections are silent). In development we throw on hard errors so
+// they show up loudly in the console.
+const validationWarnings = validateAllCountries(COUNTRIES);
+if (validationWarnings.length > 0) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    `[country-data] ${validationWarnings.length} warning(s):\n` +
+      validationWarnings.map((w) => `  - ${w}`).join("\n"),
+  );
+}
 
 export function getCountryById(id: string): CountryConfig {
   const country = COUNTRIES.find((c) => c.id === id);

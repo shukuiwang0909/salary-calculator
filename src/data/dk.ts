@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const dkConfig: CountryConfig = {
   id: "dk",
   name: "Denmark",
+  lang: "da",
+  locale: "da-DK",
   flag: "🇩🇰",
-  currency: "DKK",
+  currencyCode: "DKK",
   currencySymbol: "kr",
   annualHours: 1820,
   weeklyHours: 35,

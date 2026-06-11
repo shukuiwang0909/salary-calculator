@@ -1,10 +1,12 @@
 import Breadcrumb from "@/components/Breadcrumb";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = pageMeta({
+  path: "/privacy",
   title: "Privacy Policy",
   description:
     "Privacy Policy for Salary to Hourly. We do not collect or store your salary data.",
-};
+});
 
 export default function PrivacyPage() {
   return (

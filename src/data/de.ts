@@ -3,11 +3,13 @@ import { CountryConfig } from "@/types/country";
 export const deConfig: CountryConfig = {
   id: "de",
   name: "Germany",
+  lang: "de",
+  locale: "de-DE",
   flag: "🇩🇪",
-  currency: "EUR",
+  currencyCode: "EUR",
   currencySymbol: "€",
-  annualHours: 2080,
-  weeklyHours: 40,
+  annualHours: 1820,
+  weeklyHours: 35,
   nationalMedianSalary: 53900,
   regions: [
     { code: "BY", name: "Bavaria", medianSalary: 58000, colFactor: 1.10, colLevel: "high" },

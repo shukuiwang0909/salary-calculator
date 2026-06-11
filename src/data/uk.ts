@@ -3,8 +3,10 @@ import { CountryConfig } from "@/types/country";
 export const ukConfig: CountryConfig = {
   id: "gb",
   name: "United Kingdom",
+  lang: "en-GB",
+  locale: "en-GB",
   flag: "🇬🇧",
-  currency: "GBP",
+  currencyCode: "GBP",
   currencySymbol: "£",
   annualHours: 2080,
   weeklyHours: 40,
