@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { getDefaultCountry, COUNTRIES } from "@/data";
 import { CountryConfig } from "@/types";
 import SalaryInput from "./SalaryInput";
@@ -39,12 +40,22 @@ interface Props {
 const DEFAULT_SALARY = 75000;
 
 export default function Calculator({ initial }: Props) {
-  const initialCountry = getCountryFromId(initial?.country);
-  const initialSalary = Number.isFinite(initial?.salary)
-    ? Math.max(0, Math.min(999_999_999, initial!.salary as number))
-    : DEFAULT_SALARY;
+  const searchParams = useSearchParams();
+
+  const urlCountry = searchParams.get("country") ?? initial?.country;
+  const urlSalaryStr = searchParams.get("salary") ?? (initial?.salary !== undefined ? String(initial.salary) : null);
+  const urlRegion = searchParams.get("region") ?? initial?.region;
+  const urlFreelance = searchParams.has("freelance")
+    ? searchParams.get("freelance") === "1"
+    : initial?.freelance ?? false;
+
+  const initialCountry = getCountryFromId(urlCountry);
+  const initialSalary =
+    urlSalaryStr && Number.isFinite(Number(urlSalaryStr))
+      ? Math.max(0, Math.min(999_999_999, Number(urlSalaryStr)))
+      : DEFAULT_SALARY;
   const initialRegion =
-    initialCountry.regions.find((r) => r.code === initial?.region)?.code ||
+    initialCountry.regions.find((r) => r.code === urlRegion)?.code ||
     initialCountry.regions[0].code;
 
   const [country, setCountry] = useState<CountryConfig>(initialCountry);

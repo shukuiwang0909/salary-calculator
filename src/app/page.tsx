@@ -1,30 +1,11 @@
+import { Suspense } from "react";
 import Calculator from "@/components/Calculator";
 import HomeContent from "@/components/HomeContent";
 import Breadcrumb from "@/components/Breadcrumb";
 import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
 
-interface PageProps {
-  searchParams: Promise<{
-    country?: string;
-    salary?: string;
-    region?: string;
-    freelance?: string;
-  }>;
-}
-
-export default async function Home({ searchParams }: PageProps) {
-  const params = await searchParams;
-  const salaryNum = params.salary ? Number(params.salary) : undefined;
-
-  const initial = {
-    country: params.country,
-    salary: Number.isFinite(salaryNum) ? salaryNum : undefined,
-    region: params.region,
-    freelance: params.freelance === "1",
-  };
-
-  const webPageSchema = {
+const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "Salary to Hourly Calculator",
@@ -70,11 +51,14 @@ export default async function Home({ searchParams }: PageProps) {
     },
   };
 
+export default function Home() {
   return (
     <>
       <JsonLd data={webPageSchema} />
       <Breadcrumb items={[{ label: "Home" }]} />
-      <Calculator initial={initial} />
+      <Suspense>
+        <Calculator />
+      </Suspense>
       <HomeContent />
     </>
   );
