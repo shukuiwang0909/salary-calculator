@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
 
-// Next.js 15 + static export support: this generates a static OG image
-// at /opengraph-image (or via the explicit `src` below).
+export const dynamic = "force-static";
 export const alt = "Salary to Hourly Calculator — 18 Countries";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

@@ -61,7 +61,7 @@ export default function Calculator({ initial }: Props) {
   const [country, setCountry] = useState<CountryConfig>(initialCountry);
   const [salary, setSalary] = useState(initialSalary);
   const [region, setRegion] = useState(initialRegion);
-  const [freelance, setFreelance] = useState(Boolean(initial?.freelance));
+  const [freelance, setFreelance] = useState(urlFreelance);
 
   // Sync <html lang> with the selected country so screen readers and
   // browser translation tooling see the right language tag.
